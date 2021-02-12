@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StyleSheet, Text, View, ScrollView, Image, Dimensions } from 'react-native';
 import { Button } from 'react-native-elements';
 
@@ -11,6 +12,32 @@ const SLIDE_DATA = [
 ];
 
 function WelcomeScreen({ navigation }: {navigation: any}) {
+  const [isInitialized, setIsInitialized] = useState('');
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    // Debug用
+    // AsyncStorage.removeItem('isInitialized');
+    (async() => {
+      try {
+        const isInitializedString = await AsyncStorage.getItem('isInitialized');
+        setIsLoading(false)
+        if (isInitializedString === 'true') {
+          setIsInitialized('true')
+          navigation.navigate('Main');
+        } else {
+          setIsInitialized('false')
+        }
+      } catch(err) {
+        console.log(err)
+      }  
+    })();
+  },[])
+
+  const onStartButtonPress = async () => {
+    await AsyncStorage.setItem('isInitialized', 'true');
+    navigation.navigate('Main');
+  }
 
   function renderLastButton(index: any) {
     if (index === SLIDE_DATA.length - 1) {
@@ -19,7 +46,7 @@ function WelcomeScreen({ navigation }: {navigation: any}) {
           style={{ padding: 10 }}
           buttonStyle={{ backgroundColor: 'deepskyblue' }}
           title="Let's get it started!"
-          onPress={() => navigation.navigate('Home')}
+          onPress={() => onStartButtonPress()}
         />
       );
     }
@@ -50,6 +77,14 @@ function WelcomeScreen({ navigation }: {navigation: any}) {
         </View>
       )
     })
+  }
+
+  if (isLoading) {
+    return (
+      <View style={styles.containerStyle}>
+        <Text>Loading...</Text>
+      </View>
+    )
   }
 
   return (
