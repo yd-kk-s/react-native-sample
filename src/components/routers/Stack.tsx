@@ -19,7 +19,7 @@ const Tabs = createBottomTabNavigator();
 export const StartScreenTabs = () => (
   <Tabs.Navigator>
     <Tabs.Screen name="Welcome" component={WelcomeScreen} options={{ tabBarVisible: false }} />
-    <Tabs.Screen name="Home" component={MainScreenTabs} options={{ tabBarVisible: false }} />
+    <Tabs.Screen name="Main" component={MainScreenTabs} options={{ tabBarVisible: false }} />
   </Tabs.Navigator>
 )
 
