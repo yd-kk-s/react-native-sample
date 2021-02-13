@@ -1,0 +1,37 @@
+{
+  "reviews": [
+    {
+      "country": "USA",
+      "dateFrom": "Jan/15/2018",
+      "dateTo": "Jan/25/2018",
+      "imageURIs": [
+       "../assets/add_image_placeholder.png",
+       "../assets/add_image_placeholder.png",
+       "../assets/add_image_placeholder.png"
+      ],
+      "rank": 1
+    },
+    {
+      "country": "USA",
+      "dateFrom": "Feb/15/2018",
+      "dateTo": "Feb/25/2018",
+      "imageURIs": [
+       "../assets/add_image_placeholder.png",
+       "../assets/add_image_placeholder.png",
+       "../assets/add_image_placeholder.png"
+      ],
+      "rank": 2
+    },
+    {
+      "country": "USA",
+      "dateFrom": "Mar/15/2018",
+      "dateTo": "Mar/25/2018",
+      "imageURIs": [
+       "../assets/add_image_placeholder.png",
+       "../assets/add_image_placeholder.png",
+       "../assets/add_image_placeholder.png"
+      ],
+      "rank": 3
+    }
+  ]
+}
