@@ -29,14 +29,14 @@ const isTabBarVisible = (route: any) => {
   return !['Detail', 'Add', 'Setting1', 'Setting2'].includes(routeName);
 };
 
-const tabBarStyle = () => {}
-
 export const MainScreenTabs = () => (
   <Tabs.Navigator
   screenOptions={({route}) => ({
     tabBarVisible: isTabBarVisible(route),
   })}
-  tabBarOptions={{style: {marginBottom: -12}}} //＋Addがoverhangするので...
+  tabBarOptions={{
+    style: {marginBottom: -12}
+  }}
   >
     <Tabs.Screen
       name="Home"

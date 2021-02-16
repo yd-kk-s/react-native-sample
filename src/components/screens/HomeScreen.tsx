@@ -8,11 +8,15 @@ import { Review } from '../../domains/Review';
 function HomeScreen({ navigation }: {navigation: any}) {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [reviews, setReviews] = useState([]);
+  const [nGreat, setNGreat] = useState(0);
+  const [nGood, setNGood] = useState(0);
+  const [nPoor, setNPoor] = useState(0);
+
   const buttonList = [
-    'All',
-    'Great (0)',
-    'Good (0)',
-    'Poor (0)',
+    `All (${reviews.length})`,
+    `Great (${nGreat})`,
+    `Good (${nGood})`,
+    `Poor (${nPoor})`,
   ];
 
   enum ReviewRank {
@@ -22,6 +26,24 @@ function HomeScreen({ navigation }: {navigation: any}) {
     Poor
   }
 
+  const renderReviewCount = (reviews: Review[]) => {
+    let nGreat = 0;
+    let nGood = 0;
+    let nPoor = 0;
+
+    for (var i = 0; i < reviews.length; i++) {
+      switch(reviews[i].rank) {
+        case ReviewRank.Great: nGreat++;break;
+        case ReviewRank.Good: nGood++;break;
+        case ReviewRank.Poor: nPoor++;break;
+        default: return ''
+      }
+    }
+    setNGreat(nGreat)
+    setNGood(nGood)
+    setNPoor(nPoor)
+  }
+
   // db.josnからデータを取得する
     useEffect (() => {
       (async () => {
@@ -29,6 +51,7 @@ function HomeScreen({ navigation }: {navigation: any}) {
           const result = await Api.get('reviews');
           const reviews = result.data;
           setReviews(reviews);
+          renderReviewCount(reviews)
         } catch (error) {
           console.log("error!!");
         }
@@ -37,6 +60,10 @@ function HomeScreen({ navigation }: {navigation: any}) {
 
   const onButtonGroupPress = (selectedIndex: number) => {
     setSelectedIndex(selectedIndex)
+  }
+
+  const onListItemPress = (selectedReview: Review) => {
+    navigation.navigate('Detail', { selectedReview })
   }
 
   const renderReviews = () => {
@@ -55,34 +82,35 @@ function HomeScreen({ navigation }: {navigation: any}) {
 
     return (
       <ScrollView>
-        {rankedReviews.map((review, index) => {
-            return (
-              <ListItem key={index} bottomDivider>
-              <Icon name={(() => {
-                  switch(review.rank) {
-                    case ReviewRank.Great: return 'sentiment-very-satisfied';
-                    case ReviewRank.Good: return 'sentiment-satisfied';
-                    case ReviewRank.Poor: return 'sentiment-dissatisfied'
-                    default: return ''
-                  }
-                })()}
-                color={(() => {
-                  switch(review.rank) {
-                    case ReviewRank.Great: return 'red';
-                    case ReviewRank.Good: return 'orange';
-                    case ReviewRank.Poor: return 'blue'
-                    default: return ''
-                  }
-                })()}
-              />
-              <ListItem.Content>
-                <ListItem.Title>{review.country}</ListItem.Title>
-                <ListItem.Subtitle>{review.dateFrom}~{review.dateTo}</ListItem.Subtitle>
-              </ListItem.Content>
-            </ListItem>
-            );
-          })
-        }
+        {rankedReviews.map((review, index) => (
+          <ListItem
+            key={index}
+            bottomDivider
+            onPress={() => onListItemPress(review)}
+          >
+            <Icon name={(() => {
+              switch(review.rank) {
+                case ReviewRank.Great: return 'sentiment-very-satisfied';
+                case ReviewRank.Good: return 'sentiment-satisfied';
+                case ReviewRank.Poor: return 'sentiment-dissatisfied'
+                default: return ''
+              }
+            })()}
+            color={(() => {
+              switch(review.rank) {
+                case ReviewRank.Great: return 'red';
+                case ReviewRank.Good: return 'orange';
+                case ReviewRank.Poor: return 'blue'
+                default: return ''
+              }
+            })()}
+            />
+            <ListItem.Content>
+              <ListItem.Title>{review.country}</ListItem.Title>
+              <ListItem.Subtitle>{review.dateFrom}~{review.dateTo}</ListItem.Subtitle>
+            </ListItem.Content>
+          </ListItem>
+        ))}
       </ScrollView>
     )
   }
@@ -93,8 +121,8 @@ function HomeScreen({ navigation }: {navigation: any}) {
         buttons={buttonList}
         selectedIndex={selectedIndex}
         onPress={onButtonGroupPress}
-    />
-    {renderReviews()}
+      />
+      {renderReviews()}
     </View>
   )
 }
