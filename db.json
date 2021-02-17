@@ -5,9 +5,9 @@
       "dateFrom": "Jan/15/2018",
       "dateTo": "Jan/25/2018",
       "imageURIs": [
-       "../assets/add_image_placeholder.png",
-       "../assets/add_image_placeholder.png",
-       "../assets/add_image_placeholder.png"
+       "https://res.cloudinary.com/dev0b48ul/image/upload/v1613534231/samples/landscapes/architecture-signs.jpg",
+       "https://res.cloudinary.com/dev0b48ul/image/upload/v1613534232/samples/landscapes/beach-boat.jpg",
+       "https://res.cloudinary.com/dev0b48ul/image/upload/v1613534225/samples/food/pot-mussels.jpg"
       ],
       "rank": 1
     },
@@ -16,9 +16,8 @@
       "dateFrom": "Feb/15/2018",
       "dateTo": "Feb/25/2018",
       "imageURIs": [
-       "../assets/add_image_placeholder.png",
-       "../assets/add_image_placeholder.png",
-       "../assets/add_image_placeholder.png"
+       "https://res.cloudinary.com/dev0b48ul/image/upload/v1613534232/samples/landscapes/beach-boat.jpg",
+       "https://res.cloudinary.com/dev0b48ul/image/upload/v1613534237/samples/landscapes/nature-mountains.jpg"
       ],
       "rank": 2
     },
@@ -27,9 +26,6 @@
       "dateFrom": "Mar/15/2018",
       "dateTo": "Mar/25/2018",
       "imageURIs": [
-       "../assets/add_image_placeholder.png",
-       "../assets/add_image_placeholder.png",
-       "../assets/add_image_placeholder.png"
       ],
       "rank": 3
     }
