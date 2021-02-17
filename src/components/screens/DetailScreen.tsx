@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Dimensions, Image, TouchableOpacity, Modal } from 'react-native';
 import { ENVs } from '../../consts/envs'
 
 import { Review } from '../../domains/Review'
@@ -29,7 +29,9 @@ function DetailScreen(props: Props) {
                                                        longitude: 139.7320, //経度
                                                        latitudeDelta: MAP_ZOOM_RATE,
                                                        longitudeDelta: MAP_ZOOM_RATE * 2.25
-                                                     })
+                                                     });
+  const [modalVisible, setModalVisible] = useState(false);   
+  const [pickUpImageURI, setPickUpImageURI] = useState('');                                     
 
   useEffect(() => {
     (async() => {
@@ -62,6 +64,24 @@ function DetailScreen(props: Props) {
 
   return(
     <View style={{ flex: 1 }}>
+      <Modal
+        visible={modalVisible}
+        animationType="fade"
+        transparent={false}
+      >
+        <View style={{ flex: 1, backgroundColor: 'black' }}> 
+          <TouchableOpacity
+            onPress={() => setModalVisible(false) }
+            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+          >
+            <Image
+              style={{ height: SCREEN_WIDTH, width: SCREEN_WIDTH }}
+              source={{ uri: pickUpImageURI}}
+            />
+          </TouchableOpacity>
+        </View>
+      </Modal>
+
       <ScrollView>
         <View style={{ alignItems: 'center', padding: 20 }}>
           <Text style={{ fontSize: 30, padding: 5 }}>{review.country}</Text>
@@ -73,6 +93,35 @@ function DetailScreen(props: Props) {
           scrollEnabled={false}
           initialRegion={initialRegion}
         />
+
+        <View style={{ flexDirection: 'row' }}>
+          {review.imageURIs.map((image, index) => {
+            return (
+              <TouchableOpacity
+                key={index}
+                onPress={() => {
+                  setModalVisible(true)
+                  setPickUpImageURI(image)
+                }}
+              >
+                <Image
+                  style={{ height: SCREEN_WIDTH / 3, width: SCREEN_WIDTH / 3 }}
+                  source={{ uri: image }}
+                />
+              </TouchableOpacity>
+            );
+          })}
+          {(() => {
+            if (review.imageURIs.length < 3) {
+              return (
+                <Image
+                  style={{ height: SCREEN_WIDTH / 3, width: SCREEN_WIDTH / 3 }}
+                  source={require('../../../assets/add_image_placeholder.png')}
+                />
+              )
+            }
+          })()}
+        </View>
       </ScrollView>
     </View>
   )
